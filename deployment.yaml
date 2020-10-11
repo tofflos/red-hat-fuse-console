@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fuse-console
+  labels:
+    app: fuse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fuse
+  template:
+    metadata:
+      labels:
+        app: fuse
+    spec:
+      containers:
+      - name: console
+        image: registry.access.redhat.com/fuse7/fuse-console
+        env:
+          - name: HAWTIO_ONLINE_NAMESPACE
+            value: default
+          - name: HAWTIO_ONLINE_MODE
+            value: namespace
+        volumeMounts:
+          - name: certs-volume
+            mountPath: /etc/tls/private/serving
+            readOnly: true
+      volumes:
+        - name: certs-volume
+          secret:
+            secretName: fuse-console-tls

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fuse-console
+  labels:
+    app: fuse
+spec:
+  selector:
+    app: fuse
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8443
